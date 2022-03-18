@@ -1,0 +1,32 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "zzh.dbrest.DbRestPropertis",
+      "name": "spring.dbrest",
+      "type": "zzh.dbrest.DbRestPropertis"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "zzh.dbrest.DbRestPropertis",
+      "name": "spring.dbrest.base-package",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "zzh.dbrest.DbRestPropertis",
+      "name": "spring.dbrest.enabled",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "zzh.dbrest.DbRestPropertis",
+      "name": "spring.dbrest.request-handler",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "zzh.dbrest.DbRestPropertis",
+      "name": "spring.dbrest.result-handler",
+      "type": "java.lang.String"
+    }
+  ]
+}
