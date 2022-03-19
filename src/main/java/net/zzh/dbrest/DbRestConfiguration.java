@@ -1,12 +1,15 @@
 package net.zzh.dbrest;
 
+import net.zzh.dbrest.spring.CrudHandler;
 import net.zzh.dbrest.spring.DbRestScannerConfigure;
+import net.zzh.dbrest.spring.SpringContextHolder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.env.Environment;
 
 @Configuration
@@ -20,8 +23,21 @@ public class DbRestConfiguration implements EnvironmentAware {
     private DbRestPropertis dbRestPropertis;
 
     //初始bean时处理操作
+    @Bean("springContextHolder")
+    public SpringContextHolder SpringContextHolder(){
+        return new SpringContextHolder();
+    }
+
+    @Bean("crudHandler")
+    @DependsOn({"dbRestScannerConfigure"})
+    public CrudHandler crudHandler(){
+        return new CrudHandler();
+    }
+
+    //初始bean时处理操作
     @Bean
-    public DbRestScannerConfigure dbRestScannerConfigure(){
+    @DependsOn({"springContextHolder"})
+    public DbRestScannerConfigure dbRestScannerConfigure() {
         DbRestScannerConfigure dbRestScannerConfigure = new DbRestScannerConfigure();
         dbRestScannerConfigure.setBasePackage(dbRestPropertis.getBasePackage());
         return dbRestScannerConfigure;

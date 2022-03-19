@@ -6,6 +6,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface DbCrud {
+
     String value() default "";
+
     String tableName();
+
+    String keyField();
 }
