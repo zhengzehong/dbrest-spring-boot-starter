@@ -2,14 +2,16 @@ package net.zzh.dbrest.page;
 
 import java.util.List;
 
-public class PageResult<T>{
+public class PageResult<T> {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
     private int page;
     private int pageSize;
     private int total;
     private List<T> datas;
-
+   /* name_eq:"",
+    name_like:""
+    book_le:""*/
     public PageResult(int page, int pageSize) {
         this.page = page <= 0 ? 0 : page;
         this.pageSize = pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;

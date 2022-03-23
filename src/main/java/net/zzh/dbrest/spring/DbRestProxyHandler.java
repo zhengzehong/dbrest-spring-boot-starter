@@ -1,5 +1,6 @@
 package net.zzh.dbrest.spring;
 
+import cn.hutool.core.bean.BeanUtil;
 import net.zzh.dbrest.DbRestPropertisHolder;
 import net.zzh.dbrest.annotation.DbQueryAnnotation;
 import net.zzh.dbrest.extend.RequestHandler;
@@ -86,7 +87,11 @@ public class DbRestProxyHandler<T> implements InvocationHandler {
             for (int i = 0; i < args.length; i++) {
                 paramsMap.put(paramterNames.get(i), args[i]);
                 if ( args[i] instanceof Map) {
-                    paramsMap.putAll((Map<? extends String, ?>) args[0]);
+                    paramsMap.putAll((Map<? extends String, ?>) args[i]);
+                }
+                //支持bean
+                if (BeanUtil.isBean(args[i].getClass())) {
+                    paramsMap.putAll(BeanUtil.beanToMap(args[i]));
                 }
             }
         }

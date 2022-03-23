@@ -51,4 +51,8 @@ public class DbQueryAnnotationHolder {
     public DbQueryAnnotation getDbQueryAnnotation() {
         return dbQueryAnnotation;
     }
+
+    public Object getAnnotation() {
+        return annotation;
+    }
 }

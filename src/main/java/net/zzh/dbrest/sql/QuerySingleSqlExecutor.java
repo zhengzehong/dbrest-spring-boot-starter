@@ -11,7 +11,7 @@ public class QuerySingleSqlExecutor extends AbstractSqlExecutor {
     protected Object excuteSql(String sql, String group, Object[] sqlParams) throws SQLException {
         Entity entity = Db.use(group).queryOne(sql, sqlParams);
         if (entity != null) {
-            return EntityUtils.entityToMap(entity);
+            return EntityUtils.entityToMap(entity, true);
         }
         return entity;
     }
