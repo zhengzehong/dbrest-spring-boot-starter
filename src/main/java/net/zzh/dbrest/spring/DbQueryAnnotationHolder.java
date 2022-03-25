@@ -36,10 +36,6 @@ public class DbQueryAnnotationHolder {
        return  ReflectUtil.invoke(annotation, "value");
     }
 
-    public String getGroup() {
-        return  ReflectUtil.invoke(annotation, "group");
-    }
-
     public Class<ResultHandler> getResultHandler() {
         return  ReflectUtil.invoke(annotation, "resultHandler");
     }

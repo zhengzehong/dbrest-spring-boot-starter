@@ -60,14 +60,6 @@ public class ProxyFactoryBean<T> implements FactoryBean<T> {
                 DbCrud annotation = AnnotationUtil.getAnnotation(declaredMethod, DbCrud.class);
                 if (annotation != null) {
                     CrudHandler.addCrudMethod(declaredMethod);
-
-                   /* RequestMappingHandlerMapping requestMappingHandlerMapping = SpringContextHolder.getBean(RequestMappingHandlerMapping.class);
-                    Method getMethod = ReflectionUtils.findMethod(CrudAction.class, "getById", HttpServletRequest.class);
-                    RequestMappingInfo requestMappingInfo = new RequestMappingInfo(new PatternsRequestCondition("/" + StrUtil.toCamelCase(annotation.tableName()) + "/getById")
-                            , null, null, null, null, null, null);
-                    CrudAction crudAction = new CrudAction(annotation.tableName(), annotation.keyField());
-                    requestMappingHandlerMapping.registerMapping((RequestMappingInfo) requestMappingInfo, crudAction, getMethod);
-                    System.out.println("注册成功！");*/
                 }
             }
         }

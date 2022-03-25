@@ -1,12 +1,7 @@
-/**
- * Copyright (c) 2005, 2020, EVECOM Technology Co.,Ltd. All rights reserved.
- * EVECOM PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package net.zzh.dbrest.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.db.Db;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -25,16 +20,13 @@ import java.util.List;
 @Component
 public class DbTableManage {
 
-
-
     /**
      * 描述
      * @param tableName
-     * @param configs
-     * @author Zeo Zheng 
+     * @author Zeo Zheng
      */
     public static TableDefination getTableDefination(String tableName) throws Exception {
-        return createTableDefination(tableName, Db.use().getConnection());
+        return createTableDefination(tableName, DbManage.getDb().getConnection());
     }
 
     /**

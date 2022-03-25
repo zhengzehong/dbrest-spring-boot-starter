@@ -6,33 +6,33 @@ public class Page {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
 
-    private int pageNumber;
-    private int pageSize;
+    private int page;
+    private int size;
 
     public Page() {
-        this.pageNumber = 1;
-        this.pageSize = DEFAULT_PAGE_SIZE;
+        this.page = 1;
+        this.size = DEFAULT_PAGE_SIZE;
     }
 
     public Page(int pageNumber, int pageSize) {
-        this.pageNumber = pageNumber < 0 ? 0 : pageNumber;
-        this.pageSize = pageSize <= 0 ? 20 : pageSize;
+        this.page = pageNumber < 0 ? 0 : pageNumber;
+        this.size = pageSize <= 0 ? 20 : pageSize;
     }
 
-    public int getPageNumber() {
-        return this.pageNumber;
+    public int getPage() {
+        return this.page;
     }
 
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber < 0 ? 0 : pageNumber;
+    public void setPage(int page) {
+        this.page = page < 0 ? 0 : page;
     }
 
-    public int getPageSize() {
-        return this.pageSize;
+    public int getSize() {
+        return this.size;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize <= 0 ? 20 : pageSize;
+    public void setSize(int size) {
+        this.size = size <= 0 ? 20 : size;
     }
 
     public int getStartPosition() {
@@ -44,11 +44,11 @@ public class Page {
     }
 
     public int[] getStartEnd() {
-        return PageUtil.transToStartEnd(this.pageNumber, this.pageSize);
+        return PageUtil.transToStartEnd(this.page, this.size);
     }
 
     public String toString() {
-        return "Page [page=" + this.pageNumber + ", pageSize=" + this.pageSize + "]";
+        return "Page [page=" + this.page + ", pageSize=" + this.size + "]";
     }
 }
 

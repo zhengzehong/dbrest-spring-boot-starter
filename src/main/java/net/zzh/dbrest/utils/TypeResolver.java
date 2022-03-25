@@ -1,13 +1,8 @@
-/**
- * Copyright (c) 2005, 2020, EVECOM Technology Co.,Ltd. All rights reserved.
- * EVECOM PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package net.zzh.dbrest.utils;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 

@@ -6,15 +6,13 @@ public class PageResult<T> {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
     private int page;
-    private int pageSize;
+    private int size;
     private int total;
     private List<T> datas;
-   /* name_eq:"",
-    name_like:""
-    book_le:""*/
+
     public PageResult(int page, int pageSize) {
         this.page = page <= 0 ? 0 : page;
-        this.pageSize = pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
+        this.size = pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
     }
 
     public List<T> getDatas() {
@@ -33,16 +31,16 @@ public class PageResult<T> {
         this.page = page;
     }
 
-    public int getPageSize() {
-        return this.pageSize;
+    public int getSize() {
+        return this.size;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public int getTotalPage() {
-        return total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
+        return total % size == 0 ? total / size : total / size + 1;
     }
 
     public int getTotal() {

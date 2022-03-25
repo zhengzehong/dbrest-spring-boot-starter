@@ -16,7 +16,11 @@ public class SpringContextHolder implements ApplicationContextAware {
 
     public static <T> T getBean(Class<T> type) {
         assertContextInjected();
-        return applicationContext.getBean(type);
+        try {
+            return applicationContext.getBean(type);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static void assertContextInjected() {

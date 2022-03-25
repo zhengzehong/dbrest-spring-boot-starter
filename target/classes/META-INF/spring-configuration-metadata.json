@@ -15,8 +15,9 @@
     },
     {
       "sourceType": "net.zzh.dbrest.DbRestPropertis",
+      "defaultValue": true,
       "name": "spring.dbrest.enabled",
-      "type": "java.lang.String"
+      "type": "java.lang.Boolean"
     },
     {
       "sourceType": "net.zzh.dbrest.DbRestPropertis",
@@ -27,6 +28,12 @@
       "sourceType": "net.zzh.dbrest.DbRestPropertis",
       "name": "spring.dbrest.result-handler",
       "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.zzh.dbrest.DbRestPropertis",
+      "defaultValue": true,
+      "name": "spring.dbrest.show-sql",
+      "type": "java.lang.Boolean"
     }
   ]
 }

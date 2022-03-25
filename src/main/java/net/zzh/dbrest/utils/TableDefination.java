@@ -1,7 +1,3 @@
-/**
- * Copyright (c) 2005, 2020, EVECOM Technology Co.,Ltd. All rights reserved.
- * EVECOM PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package net.zzh.dbrest.utils;
 
 import java.util.ArrayList;
@@ -71,8 +67,6 @@ public class TableDefination {
          * 是否主键
          */
         private boolean isPrimary;
-
-
 
         public Field(String fieldName, String alias, String type, int length, String remark, boolean isPrimary) {
             this.fieldName = fieldName;

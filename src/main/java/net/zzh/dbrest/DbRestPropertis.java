@@ -1,7 +1,9 @@
 package net.zzh.dbrest;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+@EnableConfigurationProperties(DbRestPropertis.class)
 @ConfigurationProperties(prefix = "spring.dbrest")
 public class DbRestPropertis {
 
@@ -11,15 +13,19 @@ public class DbRestPropertis {
 
     private String requestHandler;
 
-    private String enabled;
+    private boolean enabled = true;
+
+    private boolean showSql = true;
 
     public DbRestPropertis() {
     }
 
-    public DbRestPropertis(String basePackage, String requestHandler, String resultHandler) {
+    public DbRestPropertis(String basePackage, String requestHandler, String resultHandler, boolean enabled, boolean showSql) {
         this.basePackage = basePackage;
+        this.showSql = showSql;
         this.resultHandler = resultHandler;
         this.requestHandler = requestHandler;
+        this.enabled = enabled;
     }
 
     public String getBasePackage() {
@@ -46,11 +52,19 @@ public class DbRestPropertis {
         this.requestHandler = requestHandler;
     }
 
-    public String getEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(String enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean getShowSql() {
+        return showSql;
+    }
+
+    public void setShowSql(boolean showSql) {
+        this.showSql = showSql;
     }
 }

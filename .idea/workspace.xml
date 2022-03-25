@@ -14,8 +14,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="AnnotationType" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -62,13 +62,6 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="$PROJECT_DIR$/../../../workTools/apache-maven-3.5.3" />
-      </MavenGeneralSettings>
-    </option>
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
@@ -128,7 +121,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.140647" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -138,11 +131,27 @@
       <recent name="E:\githome\dbrest-demo\dbrest-demo\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.zzh.dbrest.annotation" />
+      <recent name="net.zzh.dbrest.extend" />
       <recent name="net.zzh.dbrest.utils" />
       <recent name="net.zzh.dbrest" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.DbrestDemoApplication">
+    <configuration name="CrudAction" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="net.zzh.dbrest.sql.CrudAction" />
+      <module name="dbrest-spring-boot-starter" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="net.zzh.dbrest.sql.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DbTableManage (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="zzh.dbrest.demo.dbrestdemo.DbTableManage" />
       <module name="dbrest-demo" />
@@ -171,13 +180,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SqlUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="net.zzh.dbrest.utils.SqlUtils" />
-      <module name="dbrest-spring-boot-starter" />
+    <configuration name="Stu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zzh.dbrest.demo.dbrestdemo.Stu" />
+      <module name="dbrest-demo" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="net.zzh.dbrest.utils.*" />
+          <option name="PATTERN" value="zzh.dbrest.demo.dbrestdemo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zzh.dbrest.demo.dbrestdemo.Test" />
+      <module name="dbrest-demo" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="zzh.dbrest.demo.dbrestdemo.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -216,9 +239,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Test" />
+        <item itemvalue="Application.Stu" />
+        <item itemvalue="Application.CrudAction" />
         <item itemvalue="Application.DbTableManage (1)" />
         <item itemvalue="Application.DbTableManage" />
-        <item itemvalue="Application.SqlUtils" />
       </list>
     </recent_temporary>
   </component>
@@ -247,7 +272,10 @@
       <workItem from="1647583634015" duration="45780000" />
       <workItem from="1647912085821" duration="10538000" />
       <workItem from="1647933500170" duration="11119000" />
-      <workItem from="1647996994693" duration="5069000" />
+      <workItem from="1647996994693" duration="31771000" />
+      <workItem from="1648084945739" duration="21484000" />
+      <workItem from="1648170271378" duration="15307000" />
+      <workItem from="1648200783454" duration="2593000" />
     </task>
     <servers />
   </component>
@@ -304,38 +332,48 @@
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/net/zzh/dbrest/spring/ProxyFactoryBean.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/net/zzh/dbrest/spring/DbRestProxyHandler.java</url>
-          <line>28</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../dbrest-demo/dbrest-demo/src/test/java/zzh/dbrest/demo/dbrestdemo/DbTableManage.java</url>
-          <line>92</line>
+          <line>93</line>
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/net/zzh/dbrest/utils/TableDefination.java</url>
-          <line>138</line>
+          <line>132</line>
           <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/cn/hutool/hutool-all/5.7.22/hutool-all-5.7.22.jar!/cn/hutool/db/sql/SqlLog.class</url>
+          <line>36</line>
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../dbrest-demo/dbrest-demo/src/test/java/zzh/dbrest/demo/dbrestdemo/Test.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="113" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/net/zzh/dbrest/utils/TableDefination.java</url>
-          <line>137</line>
+          <line>131</line>
           <properties class="net.zzh.dbrest.utils.TableDefination.Field" method="getIsPrimary">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/../dbrest-demo/dbrest-demo/src/test/java/zzh/dbrest/demo/dbrestdemo/Stu.java</url>
+          <line>19</line>
+          <properties class="zzh.dbrest.demo.dbrestdemo.Stu" method="main">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="cn.hutool.db.sql.Query" memberName="where" />
         <PinnedItemInfo parentTag="java.lang.reflect.Method" memberName="returnType" />
+        <PinnedItemInfo parentTag="cn.hutool.db.sql.Query" memberName="tableNames" />
       </pinned-members>
     </pin-to-top-manager>
   </component>

@@ -1,7 +1,7 @@
 package net.zzh.dbrest.utils;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SqlUtils {
-
 
     static Map<String,String> conditionCharMap = new HashMap();
 
@@ -23,6 +22,7 @@ public class SqlUtils {
         conditionCharMap.put("gte", ">=");
         conditionCharMap.put("lt", "<");
         conditionCharMap.put("lte", "<=");
+        conditionCharMap.put("bet", "between");
     }
 
     /**
@@ -43,26 +43,47 @@ public class SqlUtils {
         if (StrUtil.isEmpty(key) || !key.contains(splitChar)) {
             return Optional.empty();
         }
+        key = key.trim();
         int i = key.lastIndexOf(splitChar);
-        return Optional.of(new String[]{key.substring(0, i), conditionCharMap.get(key.substring(i + 1, key.length()).toLowerCase())});
+        String condition = conditionCharMap.get(key.substring(i + 1, key.length()).toLowerCase());
+        if (StrUtil.isEmpty(condition)) {
+            return Optional.of(new String[]{key + " = ", ""});
+        } else if ("between".equals(condition) || "like".equals(condition) || "in".equals(condition)) {
+            return Optional.of(new String[]{key.substring(0, i), conditionCharMap.get(key.substring(i + 1, key.length()).toLowerCase())});
+        } else {
+            return Optional.of(new String[]{key.substring(0, i) + " " + conditionCharMap.get(key.substring(i + 1, key.length()).toLowerCase()), ""});
+        }
+    }
+
+    public static String getSplitKey(String key,String splitChar) {
+        if (StrUtil.isEmpty(key) || !key.contains(splitChar)) {
+            return key;
+        }
+        key = key.trim();
+        int i = key.lastIndexOf(splitChar);
+        String condition = conditionCharMap.get(key.substring(i + 1, key.length()).toLowerCase());
+        if (StrUtil.isEmpty(condition)) {
+            return key;
+        } else {
+            return key.substring(0, i);
+        }
     }
 
     public static String wapperParams(String conditionChar, String params) {
         switch (conditionChar) {
             case "in" :
-                return "in (" + params + ")";
+                return "in " + params;
             case "like":
                 return "like %" + params + "%";
-            case "=":
-                return params;
+            case "between":
+                String[] split = params.split(",");
+                Assert.isTrue(split.length == 2);
+                return "between " + split[0] + " and " + split[1];
+           /* case "=":
+                return params;*/
             default:
-                return conditionChar + " " + params;
+                return params;
         }
     }
 
-    public static void main(String[] args) {
-        getConditionChar("name_in", "_").ifPresent(r -> {
-            System.out.println(r[0] + "," + r[1]);
-        });
-    }
 }

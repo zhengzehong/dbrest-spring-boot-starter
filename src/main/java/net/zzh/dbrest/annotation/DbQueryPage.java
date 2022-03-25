@@ -1,5 +1,6 @@
 package net.zzh.dbrest.annotation;
 
+import net.zzh.dbrest.extend.DefaultResultHandler;
 import net.zzh.dbrest.extend.RequestHandler;
 import net.zzh.dbrest.extend.ResultHandler;
 
@@ -10,11 +11,9 @@ import java.lang.annotation.*;
 @Documented
 public @interface DbQueryPage {
 
-    String value() default "";
+    String value();
 
-    String group() default "";
-
-    Class<? extends ResultHandler> resultHandler() default ResultHandler.class;
+    Class<? extends ResultHandler> resultHandler() default DefaultResultHandler.class;
 
     Class<? extends RequestHandler> requestHandler() default RequestHandler.class;
 

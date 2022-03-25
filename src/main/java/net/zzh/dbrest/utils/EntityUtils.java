@@ -36,11 +36,15 @@ public class EntityUtils {
                         String clobText = IoUtil.read(characterStream);
                         result.put(k, clobText);
                     } catch (Exception e) {
-                        StaticLog.error("获取【" + k + "】clob字段错误！");
+                        StaticLog.error(e,"获取【" + k + "】clob字段错误！");
                     }
                 }
-            }else if(v instanceof Date){
+            } else if (v instanceof java.sql.Date) {
+                result.put(k, DateUtil.formatDate((Date) v));
+            } else if (v instanceof Date) {
                 result.put(k, DateUtil.formatDateTime((Date) v));
+            } else {
+                result.put(k, v);
             }
         });
         return result;
