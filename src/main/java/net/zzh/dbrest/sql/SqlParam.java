@@ -10,10 +10,12 @@ class SqlParam {
     String key;
     String value;
     int order;
+    boolean isInsertSql;
 
-    public SqlParam(String key, int order) {
+    public SqlParam(String key, int order, boolean isInsertSql) {
         this.key = key;
         this.order = order;
+        this.isInsertSql = isInsertSql;
     }
 
     public String getKey() {
@@ -48,5 +50,13 @@ class SqlParam {
     @Override
     public String toString() {
         return key;
+    }
+
+    public boolean isInsertSql() {
+        return isInsertSql;
+    }
+
+    public void setInsertSql(boolean insertSql) {
+        isInsertSql = insertSql;
     }
 }

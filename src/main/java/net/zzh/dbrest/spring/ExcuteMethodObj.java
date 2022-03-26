@@ -3,6 +3,7 @@ package net.zzh.dbrest.spring;
 import net.zzh.dbrest.extend.RequestHandler;
 import net.zzh.dbrest.extend.ResultHandler;
 import net.zzh.dbrest.sql.SqlBuilder;
+import net.zzh.dbrest.utils.NameUtil;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,10 +16,8 @@ import java.util.Optional;
 public class ExcuteMethodObj {
 
     private volatile DbQueryAnnotationHolder dbQueryAnnotationHolder;
-
     private ResultHandler resultHandler;
     private RequestHandler requestHandler;
-
     private SqlBuilder sqlBuilder;
 
     List<String> paramterNames;
@@ -102,9 +101,10 @@ public class ExcuteMethodObj {
         }
         paramterNames = new ArrayList<>();
         Parameter[] parameters = method.getParameters();
+        String[] names = NameUtil.getMethodNames(method);
         for (int i = 0; i < parameters.length; i++) {
             RequestParam requestParam = parameters[i].getAnnotation(RequestParam.class);
-            paramterNames.add(Optional.ofNullable(requestParam).map(RequestParam::value).filter(value -> !StringUtils.isEmpty(value)).orElse("arg" + i));
+            paramterNames.add(Optional.ofNullable(requestParam).map(RequestParam::value).filter(value -> !StringUtils.isEmpty(value)).orElse(names[i]));
         }
         return paramterNames;
     }

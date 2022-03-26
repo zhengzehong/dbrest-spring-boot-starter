@@ -93,7 +93,6 @@ public class DbRestProxyHandler<T> implements InvocationHandler {
         Map<String, Object> paramsMap = new HashMap();
         if (args != null) {
             for (int i = 0; i < args.length; i++) {
-                paramsMap.put(paramterNames.get(i), args[i] == null ? "" : args[i]);
                 if ( args[i] instanceof Map) {
                     paramsMap.putAll((Map<? extends String, ?>) args[i]);
                 }
@@ -101,6 +100,7 @@ public class DbRestProxyHandler<T> implements InvocationHandler {
                 if (args[i] != null && BeanUtil.isBean(args[i].getClass())) {
                     paramsMap.putAll(BeanUtil.beanToMap(args[i]));
                 }
+                paramsMap.put(paramterNames.get(i), args[i] == null ? "" : args[i]);
             }
         }
         return paramsMap;

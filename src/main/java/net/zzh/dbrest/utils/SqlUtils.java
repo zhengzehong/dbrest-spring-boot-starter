@@ -41,13 +41,13 @@ public class SqlUtils {
 
     public static Optional<String[]> getConditionChar(String key,String splitChar) {
         if (StrUtil.isEmpty(key) || !key.contains(splitChar)) {
-            return Optional.empty();
+            return Optional.of(new String[]{key + " =", ""});
         }
         key = key.trim();
         int i = key.lastIndexOf(splitChar);
         String condition = conditionCharMap.get(key.substring(i + 1, key.length()).toLowerCase());
         if (StrUtil.isEmpty(condition)) {
-            return Optional.of(new String[]{key + " = ", ""});
+            return Optional.of(new String[]{key + " =", ""});
         } else if ("between".equals(condition) || "like".equals(condition) || "in".equals(condition)) {
             return Optional.of(new String[]{key.substring(0, i), conditionCharMap.get(key.substring(i + 1, key.length()).toLowerCase())});
         } else {

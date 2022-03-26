@@ -15,11 +15,12 @@ public class SqlBuilder {
     }
     public String getSqlStatment(Map<String,Object> requestParams) {
         return sqlFragments.stream().filter((sqlFragment -> sqlFragment.getFragmentFilter().test(requestParams)))
-                .map(SqlFragment::getResultSql).reduce((t1, t2) -> t1 + t2).get();
+                .map(sqlFragment -> sqlFragment.getResultSql(requestParams)).reduce((t1, t2) -> t1 + t2).get();
     }
 
     public Object[] getSqlParams(Map<String,Object> requestParams) {
-        return sqlFragments.stream().filter((sqlFragment -> sqlFragment.getFragmentFilter().test(requestParams))).flatMap((SqlFragment sqlFragment) -> sqlFragment.getStatParams().stream())
+        return sqlFragments.stream().filter((sqlFragment -> sqlFragment.getFragmentFilter().test(requestParams)))
+                .flatMap((SqlFragment sqlFragment) -> sqlFragment.getStatParams().stream()).filter(sqlParam -> !sqlParam.isInsertSql)
                 .map(sqlParam -> sqlParam.getValue(requestParams)).toArray();
     }
 

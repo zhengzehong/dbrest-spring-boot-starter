@@ -6,12 +6,12 @@ public class Response {
 
     String msg;
 
-    Object body;
+    Object data;
 
     public Response(boolean success, String msg, Object body) {
         this.success = success;
         this.msg = msg;
-        this.body = body;
+        this.data = body;
     }
 
     public boolean isSuccess() {
@@ -30,11 +30,11 @@ public class Response {
         this.msg = msg;
     }
 
-    public Object getBody() {
-        return body;
+    public Object getData() {
+        return data;
     }
 
-    public void setBody(Object body) {
-        this.body = body;
+    public void setData(Object data) {
+        this.data = data;
     }
 }

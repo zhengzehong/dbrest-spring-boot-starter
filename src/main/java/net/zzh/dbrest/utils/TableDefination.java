@@ -16,6 +16,10 @@ public class TableDefination {
      */
     private String tableName;
     /**
+     * 数据库类型
+     */
+    private String dbType;
+    /**
      * 表字段
      */
     private List<Field> fields = new ArrayList<>();

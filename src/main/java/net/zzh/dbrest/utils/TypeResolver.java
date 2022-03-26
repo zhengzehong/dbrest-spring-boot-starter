@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -22,9 +23,10 @@ public class TypeResolver {
     static {
         addTypeMapping(CollUtil.newArrayList("varchar", "varchar2", "json", "text","longtext"), String.class);
         addTypeMapping(CollUtil.newArrayList("datetime", "date", "timestamp(6)", "timestamp"), Date.class);
-        addTypeMapping(CollUtil.newArrayList("int", "integer", "number"), Integer.class);
+        addTypeMapping(CollUtil.newArrayList("int", "integer"), Integer.class);
         addTypeMapping(CollUtil.newArrayList("double"), double.class);
         addTypeMapping(CollUtil.newArrayList("float"), float.class);
+        addTypeMapping(CollUtil.newArrayList("number"), BigDecimal.class);
     }
 
     /**
@@ -44,7 +46,7 @@ public class TypeResolver {
             return "";
         }
         String javaType = getJavaType(jdbcType);
-        if (javaType.equals("Date")) {
+        if (javaType.equals("Date") && !DbManage.isMysql()) {
             return DateUtil.parse(value);
         }
         return value;

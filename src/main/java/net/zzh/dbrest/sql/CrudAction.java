@@ -145,11 +145,24 @@ public class CrudAction {
         return new JSONObject();
     }
 
+    private Map<String,String> getJsonParamsMap(HttpServletRequest httpServletRequest) {
+        HashMap<String, String> result = new HashMap<>();
+        JSONObject jsonParams = getJsonParams(httpServletRequest);
+        jsonParams.keySet().forEach(key -> {
+            String str = jsonParams.getStr(key);
+            if (StrUtil.isNotEmpty(str)) {
+                result.put(key, str);
+            }
+        });
+        return result;
+    }
+
     public Object delete(HttpServletRequest httpServletRequest) {
         Map<String, String> requestMap = getRequestMap(httpServletRequest);
         requestMap = invokeRequestHandler((Map) requestMap, ReflectUtil.getMethodByName(this.getClass(), "delete"));
         String id = requestMap.get("id");
         try {
+            Assert.notEmpty(id, "id不能为空");
             int del = DbManage.getDb().del(tableName, keyField, id);
             return invokeResultHandler(MapUtil.of("effects", del), ReflectUtil.getMethodByName(this.getClass(), "delete"));
         } catch (Exception e) {
@@ -164,6 +177,7 @@ public class CrudAction {
         String id = requestMap.get("id");
         List<Entity> entities = null;
         try {
+            Assert.notEmpty(id, "id不能为空");
             entities = DbManage.getDb().findBy(tableName, keyField, id);
             if (CollectionUtil.isNotEmpty(entities)) {
                 Entity entity = entities.get(0);
@@ -179,10 +193,23 @@ public class CrudAction {
 
     public Object findList(HttpServletRequest httpServletRequest) {
         try {
-            Map<String, String> requestMap = getRequestMap(httpServletRequest);
+            String contentType = httpServletRequest.getHeader("Content-Type");
+            Map<String, String> requestMap = null;
+            //判断是否是application/json请求
+            if (StrUtil.isNotEmpty(contentType) && contentType.contains("json")) {
+                 requestMap = getJsonParamsMap(httpServletRequest);
+
+            }else {
+                 requestMap = getRequestMap(httpServletRequest);
+            }
             requestMap = invokeRequestHandler((Map) requestMap, ReflectUtil.getMethodByName(this.getClass(), "findList"));
-            String orderBy = requestMap.get("orderBy");
-            requestMap.remove("orderBy");
+            String orderBy = "";
+            if (requestMap.containsKey("orderBy")) {
+                orderBy = requestMap.remove("orderBy");
+            }
+            if (requestMap.containsKey("orderby")) {
+                orderBy = requestMap.remove("orderby");
+            }
             Entity entity = Entity.create(tableName);
             if (CollectionUtil.isNotEmpty(requestMap)) {
                 //bet类型转成lte,gte
@@ -190,7 +217,11 @@ public class CrudAction {
                 requestMap.forEach((k,v) -> {
                     Optional<String[]> conditionChar = getConditionChar(k, "_");
                     if (tableDefination != null && tableDefination.getJdbcType(getSplitKey(k,"_")).isPresent()) {
-                        entity.set(conditionChar.get()[0], TypeResolver.toObject(tableDefination.getJdbcType(getSplitKey(k,"_")).get(), v == null ? "" : String.valueOf(v)));
+                        Object value = TypeResolver.toObject(tableDefination.getJdbcType(getSplitKey(k, "_")).get(), v == null ? "" : String.valueOf(v));
+                        if (value instanceof String) {
+                            value = wapperParams(conditionChar.get()[1], (String) value);
+                        }
+                        entity.set(conditionChar.get()[0], value);
                     } else {
                         entity.set(conditionChar.get()[0], wapperParams(conditionChar.get()[1], v));
                     }
@@ -200,15 +231,31 @@ public class CrudAction {
             //排序，findList只支持单字段排序
             if (StrUtil.isNotEmpty(orderBy)) {
                 String[] split = orderBy.split(" ");
-                String filedName = split[0].trim();
+                String fieldName = split[0].trim();
                 //如果长度==1，默认降序
                 boolean asc = split.length != 1 && ("asc".equals(split[1].trim()));
-                CollectionUtil.sort(maps, Comparator.comparing((o1)->{
-                    if (o1 == null) { return ""; }
-                    Object name1 = o1.get(filedName);
-                    if (name1 == null) { return ""; }
+                Optional<String> jdbcType = tableDefination.getJdbcType(fieldName);
+                Comparator<Map> comparing = Comparator.comparing((o1) -> {
+                    if (o1 == null) {
+                        return "";
+                    }
+                    Object name1 = o1.get(fieldName);
+                    if (name1 == null) {
+                        return "";
+                    }
                     return String.valueOf(name1);
-                }));
+                });
+                if (tableDefination != null && tableDefination.getJdbcType(fieldName).isPresent()) {
+                    String javaType = TypeResolver.getJavaType(tableDefination.getJdbcType(fieldName).get());
+                    if ("Integer".equals(javaType)) {comparing = Comparator.comparingInt((o1) -> {
+                        Object obj = o1.get(fieldName);
+                        if (StrUtil.isEmptyIfStr(obj)) {
+                            return -999999;
+                        }
+                        return (int)obj;
+                    });}
+                }
+                CollectionUtil.sort(maps, comparing);
                 if (!asc) {
                     maps = CollectionUtil.reverse(maps);
                 }
@@ -244,22 +291,32 @@ public class CrudAction {
 
     public Object findPage(HttpServletRequest httpServletRequest) {
         try {
-            Map<String, String> requestMap = getRequestMap(httpServletRequest);
+            Map<String, String> requestMap = null;
+            String contentType = httpServletRequest.getHeader("Content-Type");
+            //判断是否是application/json请求
+            if (StrUtil.isNotEmpty(contentType) && contentType.contains("json")) {
+                requestMap = getJsonParamsMap(httpServletRequest);
+
+            }else {
+                requestMap = getRequestMap(httpServletRequest);
+            }
             requestMap = invokeRequestHandler((Map) requestMap, ReflectUtil.getMethodByName(this.getClass(), "findPage"));
-            String pageNum = StrUtil.emptyToDefault(requestMap.get("pageNum"), "1");
-            String pageSize = StrUtil.emptyToDefault(requestMap.get("pageSize"),"10");
+            String pageNum = StrUtil.emptyToDefault(requestMap.remove("page"), "1");
+            String pageSize = StrUtil.emptyToDefault(requestMap.remove("size"),"10");
             Page page1 = new Page(Integer.parseInt(pageNum) - 1, Integer.parseInt(pageSize));
-            requestMap.remove("pageNum");
-            requestMap.remove("pageSize");
             Entity entity = Entity.create(tableName);
             if (CollectionUtil.isNotEmpty(requestMap)) {
                 //bet类型转成lte,gte
                 resovelBet(requestMap);
                 requestMap.forEach((k,v) -> {
-                    if (!"orderBy".equals(k)) {
+                    if (!"orderBy".equals(k) && !"orderby".equals(k)) {
                         Optional<String[]> conditionChar = getConditionChar(k, "_");
                         if (tableDefination != null && tableDefination.getJdbcType(getSplitKey(k,"_")).isPresent()) {
-                            entity.set(conditionChar.get()[0], TypeResolver.toObject(tableDefination.getJdbcType(getSplitKey(k,"_")).get(), v == null ? "" : String.valueOf(v)));
+                            Object value = TypeResolver.toObject(tableDefination.getJdbcType(getSplitKey(k, "_")).get(), v == null ? "" : String.valueOf(v));
+                            if (value instanceof String) {
+                                value = wapperParams(conditionChar.get()[1], (String) value);
+                            }
+                            entity.set(conditionChar.get()[0], value);
                         } else {
                             entity.set(conditionChar.get()[0], wapperParams(conditionChar.get()[1], v));
                         }

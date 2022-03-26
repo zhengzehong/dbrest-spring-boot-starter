@@ -82,6 +82,5 @@ public class DbTableManage {
 
     public static void main(String[] args) throws Exception {
         TableDefination table_config = getTableDefination("BOOK2");
-        System.out.println(table_config);
     }
 }

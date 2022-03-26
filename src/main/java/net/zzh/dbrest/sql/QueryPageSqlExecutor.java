@@ -1,6 +1,7 @@
 package net.zzh.dbrest.sql;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.db.Entity;
 import net.zzh.dbrest.utils.DbManage;
@@ -28,18 +29,20 @@ public class QueryPageSqlExecutor extends AbstractSqlExecutor {
     }
 
     private Page getPage() {
-        if (CollectionUtil.isNotEmpty(getParams())) {
-            return (Page) getParams().values().stream().filter(t -> t instanceof Page).findFirst().orElse(new Page());
-        }else if (CollectionUtil.isNotEmpty(getParams())) {
-            Optional<Object> first = getParams().values().stream().filter(t -> t instanceof cn.hutool.db.Page).findFirst();
+        Optional<Object> first = getParams().values().stream().filter(t -> t instanceof Page).findFirst();
+        if (first.isPresent()) {
+            return (Page) first.get();
+        }
+        Optional<Object> second = getParams().values().stream().filter(t -> t instanceof cn.hutool.db.Page).findFirst();
+        if (second.isPresent()) {
             Page page = new Page();
-            first.ifPresent( p -> {
-                page.setPage(((cn.hutool.db.Page)p).getPageNumber()-1);
-                page.setSize(((cn.hutool.db.Page) p).getPageSize());
-            });
+            page.setPage(((cn.hutool.db.Page) second.get()).getPageNumber() - 1);
+            page.setSize(((cn.hutool.db.Page) second.get()).getPageSize());
             return page;
         }
-        return new Page();
-    }
+        String page = MapUtil.getStr(getParams(), "page","1");
+        String size = MapUtil.getStr(getParams(), "size","10");
+        return new Page(Integer.parseInt(page), Integer.parseInt(size));
 
+    }
 }

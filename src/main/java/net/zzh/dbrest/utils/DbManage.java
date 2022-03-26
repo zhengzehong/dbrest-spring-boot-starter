@@ -2,6 +2,8 @@ package net.zzh.dbrest.utils;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.db.*;
+import cn.hutool.db.dialect.Dialect;
+import cn.hutool.db.dialect.impl.MysqlDialect;
 import cn.hutool.db.handler.EntityListHandler;
 import cn.hutool.db.handler.NumberHandler;
 import cn.hutool.db.handler.PageResultHandler;
@@ -24,6 +26,8 @@ public class DbManage {
 
    private static Db db;
 
+   private static String dbType;
+
    public static Db getDb() {
         if (db != null) {
            return db;
@@ -39,7 +43,14 @@ public class DbManage {
         if (DbRestPropertisHolder.getDbRestPropertis().getShowSql()) {
             DbUtil.setShowSqlGlobal(true, false, true, Level.INFO);
         }
+       if (db.getRunner().getDialect() instanceof MysqlDialect) {
+           dbType = "mysql";
+       }
         return db;
+    }
+
+    public static boolean isMysql() {
+        return "mysql".equals(dbType);
     }
 
     public static List<Entity> findAll(Entity entity) throws SQLException {
@@ -49,9 +60,6 @@ public class DbManage {
             Db db = getDb();
             conn = db.getConnection();
             Query query = psQuery(Query.of(entity).setFields(entity.getFieldNames()));
-            for (Condition condition : query.getWhere()) {
-                condition.setOperator("");
-            }
             entities = db.getRunner().find(db.getConnection(), query,new EntityListHandler(true));
         } finally {
             db.closeConnection(conn);
@@ -77,6 +85,9 @@ public class DbManage {
 
     private static Query psQuery(Query query) {
         Condition[] where = query.getWhere();
+        if (where == null) {
+            return query;
+        }
         for (Condition condition : where) {
             if (!StrUtil.equalsAnyIgnoreCase(condition.getOperator(),"like","between","in")) {
                 condition.setOperator("");

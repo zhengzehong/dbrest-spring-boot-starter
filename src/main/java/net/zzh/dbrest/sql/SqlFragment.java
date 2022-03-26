@@ -1,6 +1,8 @@
 package net.zzh.dbrest.sql;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
 import ognl.Ognl;
 import ognl.OgnlException;
 import org.springframework.util.StringUtils;
@@ -14,7 +16,7 @@ class SqlFragment {
 
     String originSql;
 
-    String resultSql;
+    //String resultSql;
 
     Predicate<Map> fragmentFilter;
 
@@ -24,7 +26,7 @@ class SqlFragment {
         this.originSql = originSql;
         initStatParams(originSql);
         if (isBrackets()) {
-            initResultSql(originSql.split("\\?")[1]);
+            //initResultSql(originSql.split("\\?")[1]);
             fragmentFilter = (params) -> {
                 String condition = originSql.split("\\?")[0];
                 try {
@@ -42,7 +44,7 @@ class SqlFragment {
                 return false;
             };
         }else{
-            initResultSql(originSql);
+            //initResultSql(originSql);
             fragmentFilter = (params) -> true;
         }
     }
@@ -55,22 +57,31 @@ class SqlFragment {
         char[] chars = originSql.toCharArray();
         int itemIndex = 1;
         int start = 0;
+        boolean isInsertSql = false;
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '[') {
                 start = i;
+                isInsertSql = chars[i > 0 ? i - 1 : 0] == '$';
             } else if (chars[i] == ']') {
-                statParams.add(new SqlParam(new String(chars, start + 1, i - start - 1), itemIndex));
+                statParams.add(new SqlParam(new String(chars, start + 1, i - start - 1), itemIndex, isInsertSql));
             }
         }
     }
 
-    private void initResultSql(String originSql) {
-        resultSql = originSql;
+    public String getResultSql(Map<String,Object> data) {
+        String resultSql = isBrackets() ? originSql.split("\\?")[1] : this.originSql;
         if (CollectionUtil.isNotEmpty(statParams)) {
-            statParams.stream().map(SqlParam::getKey).forEach(key -> {
-                this.resultSql = resultSql.replace("[" + key + "]", "?");
-            });
+            for (SqlParam sqlParam : statParams) {
+                if (!sqlParam.isInsertSql) {
+                    resultSql = resultSql.replace("[" + sqlParam.getKey() + "]", "?");
+                }else {
+                    Object value = sqlParam.getValue(data);
+                    Assert.isTrue(value instanceof String, "获取的sql片段值必须是字符串类型");
+                    resultSql = resultSql.replace("$[" + sqlParam.getKey() + "]", StrUtil.nullToEmpty((String) value));
+                }
+            };
         }
+        return resultSql;
     }
 
 
@@ -84,14 +95,6 @@ class SqlFragment {
 
     public void setOriginSql(String originSql) {
         this.originSql = originSql;
-    }
-
-    public String getResultSql() {
-        return resultSql;
-    }
-
-    public void setResultSql(String resultSql) {
-        this.resultSql = resultSql;
     }
 
     public List<SqlParam> getStatParams() {
