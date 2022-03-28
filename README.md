@@ -133,8 +133,8 @@ sqlLevel = debug
 - 请求方式：get、普通post、post (application/json)
 
  *  请求参数： 
-     *     { 字段名1\_条件："xx", 字段名2\_条件："xx"}，如： { "id_eq": 3, "name_like": "aaa" }
-     *     条件支持：\_eq、\_neq、\_like、\_in、\_gt、\_gte、\_lt、\_lte、\_bet（同between）
+     *     { 字段名1_条件："xx", 字段名2_条件："xx"}，如： { "id_eq": 3, "name_like": "aaa" }
+     *     条件支持：_eq、_neq、_like、_in、_gt、_gte、_lt、_lte、_bet（同between）
      *     特殊字段：orderby, 可传入 { orderby: '字段名 desc/asc'} 进行排序
 
 #### findPage
@@ -152,8 +152,8 @@ sqlLevel = debug
 - Sql中获取参数：
 
   - 使用[key]（同mybatis #{key}），如：@DbQuery(value = "Select * from [key]")
-  - 使用 $[key]  （同mybatis ${key}），如：@DbQuery(value = "Select * from $[key]")   
-    - 如无权限验证机制，谨慎使用 $[key]，存在sql注入风险
+  - 使用 \$[key]  （同mybatis \${key}），如：@DbQuery(value = "Select * from \$[key]")   
+    - 如无权限验证机制，谨慎使用 \$[key]，存在sql注入风险
   - 可获取map、entity、@RequestParam、@RequestBody字段
 
 - Sql条件判断
