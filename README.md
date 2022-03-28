@@ -150,11 +150,13 @@ sqlLevel = debug
 ### Sql特殊语法
 
 - Sql中获取参数：
+    ```
 
-  - 使用[key]（同mybatis #{key}），如：@DbQuery(value = "Select * from [key]")
-  - 使用 \$[key]  （同mybatis \${key}），如：@DbQuery(value = "Select * from \$[key]")   
-    - 如无权限验证机制，谨慎使用 \$[key]，存在sql注入风险
-  - 可获取map、entity、@RequestParam、@RequestBody字段
+    使用[key]（同mybatis #{key}），如：@DbQuery(value = "Select * from [key]")
+    使用 \$[key]  （同mybatis \${key}），如：@DbQuery(value = "Select * from \$[key]")   
+    如无权限验证机制，谨慎使用 \$[key]，存在sql注入风险
+    可获取map、entity、@RequestParam、@RequestBody字段
+    ```
 
 - Sql条件判断
 
