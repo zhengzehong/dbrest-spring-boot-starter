@@ -151,10 +151,9 @@ sqlLevel = debug
 
 - Sql中获取参数：
     ```
-
     使用[key]（同mybatis #{key}），如：@DbQuery(value = "Select * from [key]")
-    使用 \$[key]  （同mybatis \${key}），如：@DbQuery(value = "Select * from \$[key]")   
-    如无权限验证机制，谨慎使用 \$[key]，存在sql注入风险
+    使用 $[key]  （同mybatis ${key}），如：@DbQuery(value = "Select * from $[key]")   
+    如无权限验证机制，谨慎使用 $[key]，存在sql注入风险
     可获取map、entity、@RequestParam、@RequestBody字段
     ```
 
