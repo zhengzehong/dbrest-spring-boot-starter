@@ -1,5 +1,11 @@
 package net.zzh.dbrest.extend;
 
+/**
+ * @Description: 默认的结果包装类，可通过自定义ResultHandler修改
+ * @author Zeo Zheng
+ * @date 2022/1/23 16:58
+ * @version 1.0
+ */
 public class Response {
 
     boolean success;

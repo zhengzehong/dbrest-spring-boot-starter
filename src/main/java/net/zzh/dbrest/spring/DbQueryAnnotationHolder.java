@@ -8,6 +8,12 @@ import net.zzh.dbrest.extend.ResultHandler;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+/**
+ * @Description: 注解辅助类
+ * @author Zeo Zheng
+ * @date 2022/1/23 16:58
+ * @version 1.0
+ */
 public class DbQueryAnnotationHolder {
 
     Object annotation;

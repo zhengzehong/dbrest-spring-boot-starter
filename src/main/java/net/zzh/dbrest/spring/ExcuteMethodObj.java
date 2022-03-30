@@ -1,5 +1,6 @@
 package net.zzh.dbrest.spring;
 
+import cn.hutool.log.StaticLog;
 import net.zzh.dbrest.extend.RequestHandler;
 import net.zzh.dbrest.extend.ResultHandler;
 import net.zzh.dbrest.sql.SqlBuilder;
@@ -71,7 +72,7 @@ public class ExcuteMethodObj {
                 resultHandler = resultHandlerClass.newInstance();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            StaticLog.error(e);
         }
         return resultHandler;
     }
@@ -90,7 +91,7 @@ public class ExcuteMethodObj {
                 requestHandler = requestHandlerClass.newInstance();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            StaticLog.error(e);
         }
         return requestHandler;
     }

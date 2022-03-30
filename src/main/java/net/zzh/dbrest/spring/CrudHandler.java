@@ -23,7 +23,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 来源微信公众号：Java技术栈
+ * @Description: CrudHandler集成ApplicationListener，用于注册@DbCrud注解接口
+ * @author Zeo Zheng
+ * @date 2022/1/23 16:58
+ * @version 1.0
  */
 public class CrudHandler implements ApplicationListener<ApplicationReadyEvent> {
 
@@ -35,14 +38,19 @@ public class CrudHandler implements ApplicationListener<ApplicationReadyEvent> {
         crudMethods.add(method);
     }
 
+    /**
+     * 在应用启动后注册DbCrud接口
+     * @param event
+     */
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        //获取spring的RequestMappingHandlerMapping，用于注册
         RequestMappingHandlerMapping requestMappingHandlerMapping = SpringContextHolder.getBean(RequestMappingHandlerMapping.class);
         for (Method crudMethod : crudMethods) {
             DbCrud annotation = crudMethod.getAnnotation(DbCrud.class);
             CrudAction crudAction = new CrudAction(annotation);
             Class<?> declaringClass = crudMethod.getDeclaringClass();
-
+            //获取类上的RequestMapping注解
             RequestMapping requestMapping = declaringClass.getAnnotation(RequestMapping.class);
             PatternsRequestCondition typeCondition = null;
             if (requestMapping != null) {
@@ -62,13 +70,16 @@ public class CrudHandler implements ApplicationListener<ApplicationReadyEvent> {
                     default:
                         requestMethodsRequestCondition = new RequestMethodsRequestCondition(RequestMethod.GET,RequestMethod.POST);
                 }
+                //spring创建spring请求路径匹配对象，默认/tablename/save(update等)
                 PatternsRequestCondition patternsRequestCondition = new PatternsRequestCondition("/" + StrUtil.toCamelCase(annotation.tableName().toLowerCase()) + "/" + initMethod);
                 if (typeCondition != null) {
+                    //如果类上有RequectMapping的注解，则联合
                     patternsRequestCondition = typeCondition.combine(patternsRequestCondition);
                 }
                 requests.addAll(patternsRequestCondition.getPatterns());
                 RequestMappingInfo requestMappingInfo = new RequestMappingInfo(patternsRequestCondition
                         , requestMethodsRequestCondition, null, null, null, null, null);
+                //注册spring mvc请求
                 requestMappingHandlerMapping.registerMapping((RequestMappingInfo) requestMappingInfo, crudAction, getMethod);
             }
             StaticLog.info("@DbCrud请求：" + requests);

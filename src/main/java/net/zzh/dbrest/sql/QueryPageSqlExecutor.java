@@ -20,7 +20,7 @@ public class QueryPageSqlExecutor extends AbstractSqlExecutor {
     protected Object excuteSql(String sql, Object[] sqlParams) throws SQLException {
         Page page = getPage();
         cn.hutool.db.Page page1 = new cn.hutool.db.Page(page.getPage() - 1, page.getSize());
-        cn.hutool.db.PageResult<Entity> pageResult2 = DbManage.getDb().page(sql, page1, Arrays.stream(sqlParams).filter(t-> (!(t instanceof Page) && !(t instanceof Page)))
+        cn.hutool.db.PageResult<Entity> pageResult2 = DbManage.getDb().page(sql, page1, Arrays.stream(sqlParams).filter(t-> (!(t instanceof cn.hutool.db.Page) && !(t instanceof Page)))
                 .collect(Collectors.toList()).toArray());
         PageResult pageResult = new PageResult(page.getPage(), page.getSize());
         pageResult.setTotal(pageResult2.getTotal());

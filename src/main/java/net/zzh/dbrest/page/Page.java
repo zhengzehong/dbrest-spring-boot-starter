@@ -2,10 +2,15 @@ package net.zzh.dbrest.page;
 
 import cn.hutool.core.util.PageUtil;
 
+/**
+ * @Description: 分页对象1
+ * @author Zeo Zheng
+ * @date 2022/2/21 14:58
+ * @version 1.0
+ */
 public class Page {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
-
     private int page;
     private int size;
 
@@ -14,9 +19,9 @@ public class Page {
         this.size = DEFAULT_PAGE_SIZE;
     }
 
-    public Page(int pageNumber, int pageSize) {
-        this.page = pageNumber < 0 ? 0 : pageNumber;
-        this.size = pageSize <= 0 ? 20 : pageSize;
+    public Page(int page, int size) {
+        this.page = Math.max(page, 0);
+        this.size = size <= 0 ? DEFAULT_PAGE_SIZE : size;
     }
 
     public int getPage() {
@@ -24,7 +29,7 @@ public class Page {
     }
 
     public void setPage(int page) {
-        this.page = page < 0 ? 0 : page;
+        this.page = Math.max(page, 0);
     }
 
     public int getSize() {

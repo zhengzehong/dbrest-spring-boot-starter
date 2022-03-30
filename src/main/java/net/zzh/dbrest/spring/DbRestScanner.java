@@ -17,7 +17,14 @@ import java.lang.annotation.Annotation;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * @Description: 参照mybatis实现，自定义注解扫描
+ * @author Zeo Zheng
+ * @date 2022/1/23 16:58
+ * @version 1.0
+ */
 public class DbRestScanner extends ClassPathBeanDefinitionScanner {
+
     private Class<? extends Annotation> annotationClass;
     private Class<?> markerInterface;
     private ProxyFactoryBean<?> mapperFactoryBean = new ProxyFactoryBean();
@@ -26,8 +33,6 @@ public class DbRestScanner extends ClassPathBeanDefinitionScanner {
         super(registry, false);
     }
 
-
-
     public void setAnnotationClass(Class<? extends Annotation> annotationClass) {
         this.annotationClass = annotationClass;
     }
@@ -35,8 +40,6 @@ public class DbRestScanner extends ClassPathBeanDefinitionScanner {
     public void setMarkerInterface(Class<?> markerInterface) {
         this.markerInterface = markerInterface;
     }
-
-
 
     public void registerFilters() {
         boolean acceptAllInterfaces = true;

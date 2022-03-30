@@ -1,29 +1,34 @@
 package net.zzh.dbrest.annotation;
 
+/**
+ * @Description: 注解枚举类
+ * @author Zeo Zheng
+ * @date 2022/1/20 11:58
+ * @version 1.0
+ */
 public enum DbQueryAnnotation {
     DBQUERY,
     DBQUERYPAGE,
     DBUPDATE,
     DBINSERT,
     DBQUERYSINGLE;
+
     public static DbQueryAnnotation get(Object annotation) {
+        DbQueryAnnotation dbQueryAnnotation = null;
         if (annotation instanceof DbQuery) {
-            return DbQueryAnnotation.DBQUERY;
+            dbQueryAnnotation = DbQueryAnnotation.DBQUERY;
+        }else if (annotation instanceof DbInsert) {
+            dbQueryAnnotation =  DbQueryAnnotation.DBINSERT;
+        }else if (annotation instanceof DbUpdate) {
+            dbQueryAnnotation =  DbQueryAnnotation.DBUPDATE;
+        }else if (annotation instanceof DbQuerySingle) {
+            dbQueryAnnotation = DbQueryAnnotation.DBQUERYSINGLE;
+        }else if (annotation instanceof DbQueryPage) {
+            dbQueryAnnotation = DbQueryAnnotation.DBQUERYPAGE;
         }
-        if (annotation instanceof DbInsert) {
-            return DbQueryAnnotation.DBINSERT;
-        }
-        if (annotation instanceof DbUpdate) {
-            return DbQueryAnnotation.DBUPDATE;
-        }
-        if (annotation instanceof DbQuerySingle) {
-            return DbQueryAnnotation.DBQUERYSINGLE;
-        }
-        if (annotation instanceof DbQueryPage) {
-            return DbQueryAnnotation.DBQUERYPAGE;
-        }
-        return null;
+        return dbQueryAnnotation;
     }
+
     public static boolean isDbQueryAnnotation(Object annotation) {
         return get(annotation) != null;
     }

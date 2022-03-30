@@ -3,6 +3,7 @@ package net.zzh.dbrest.sql;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.StaticLog;
 import ognl.Ognl;
 import ognl.OgnlException;
 import org.springframework.util.StringUtils;
@@ -16,8 +17,6 @@ class SqlFragment {
 
     String originSql;
 
-    //String resultSql;
-
     Predicate<Map> fragmentFilter;
 
     List<SqlParam> statParams = new ArrayList<>(4);
@@ -26,25 +25,21 @@ class SqlFragment {
         this.originSql = originSql;
         initStatParams(originSql);
         if (isBrackets()) {
-            //initResultSql(originSql.split("\\?")[1]);
             fragmentFilter = (params) -> {
                 String condition = originSql.split("\\?")[0];
                 try {
                     Object value = Ognl.getValue(condition, params);
                     if (value instanceof Boolean) {
                         return (Boolean) value;
-                    }
-                    if (value instanceof String) {
+                    }else if (value instanceof String) {
                         return !StringUtils.isEmpty(value);
                     }
                 } catch (OgnlException e) {
-                    e.printStackTrace();
-                    return false;
+                    StaticLog.error(e, "ognl处理失败");
                 }
                 return false;
             };
         }else{
-            //initResultSql(originSql);
             fragmentFilter = (params) -> true;
         }
     }

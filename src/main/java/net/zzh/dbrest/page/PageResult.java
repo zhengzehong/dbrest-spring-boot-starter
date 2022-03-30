@@ -2,6 +2,12 @@ package net.zzh.dbrest.page;
 
 import java.util.List;
 
+/**
+ * @Description: 分页结果类
+ * @author Zeo Zheng
+ * @date 2022/2/21 14:58
+ * @version 1.0
+ */
 public class PageResult<T> {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
@@ -11,7 +17,7 @@ public class PageResult<T> {
     private List<T> datas;
 
     public PageResult(int page, int pageSize) {
-        this.page = page <= 0 ? 0 : page;
+        this.page = Math.max(page, 0);
         this.size = pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
     }
 

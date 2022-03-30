@@ -15,8 +15,17 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @Description: 代理处理类
+ * @author Zeo Zheng
+ * @date 2022/1/23 16:58
+ * @version 1.0
+ */
 public class DbRestProxyHandler<T> implements InvocationHandler {
 
+    /**
+     * 动态代理的接口
+     */
     private Class<T> proxyInterface;
 
     private ConcurrentHashMap<Method, ExcuteMethodObj> methodCache = new ConcurrentHashMap();
@@ -33,7 +42,7 @@ public class DbRestProxyHandler<T> implements InvocationHandler {
                 Map<String, Object> paramMap = createParamMap(excuteMethodObj.getParamterNames(), args);
                 //执行Sql前置回调
                 paramMap = invokeRequestHandler(paramMap, excuteMethodObj.getRequestHandler(), excuteMethodObj.getDbQueryAnnotationHolder(), method);
-                //执行sql
+                //执行sql处理伙计
                 Object result = SqlExecutorManager.excute(excuteMethodObj, paramMap);
                 //执行Sql后置回调
                 return invokeResultHandler(result, excuteMethodObj.getDbQueryAnnotationHolder(), excuteMethodObj.getResultHandler(),method);
@@ -65,7 +74,7 @@ public class DbRestProxyHandler<T> implements InvocationHandler {
         }
     }
 
-    ExcuteMethodObj getExcuteMethodObj(Method method) {
+    private ExcuteMethodObj getExcuteMethodObj(Method method) {
         ExcuteMethodObj excuteMethodObj = methodCache.get(method);
         if (excuteMethodObj == null) {
             synchronized (this) {
@@ -90,10 +99,17 @@ public class DbRestProxyHandler<T> implements InvocationHandler {
         return false;
     }
 
+    /**
+     * 把请求参数转成map形式
+     * @param paramterNames
+     * @param args
+     * @return
+     */
     private Map<String, Object> createParamMap(List<String> paramterNames, Object[] args) {
         Map<String, Object> paramsMap = new HashMap();
         if (args != null) {
             for (int i = 0; i < args.length; i++) {
+                //把map对象扩展
                 if ( args[i] instanceof Map) {
                     paramsMap.putAll((Map<? extends String, ?>) args[i]);
                 }

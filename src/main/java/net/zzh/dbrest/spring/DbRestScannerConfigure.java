@@ -12,6 +12,12 @@ import net.zzh.dbrest.annotation.DbRestController;
 
 import java.lang.annotation.Annotation;
 
+/**
+ * @Description: 配置处理类，逻辑处理的入口类
+ * @author Zeo Zheng
+ * @date 2022/1/23 16:58
+ * @version 1.0
+ */
 public class DbRestScannerConfigure implements BeanDefinitionRegistryPostProcessor, ApplicationContextAware, BeanNameAware {
 
     private String basePackage;
@@ -55,6 +61,10 @@ public class DbRestScannerConfigure implements BeanDefinitionRegistryPostProcess
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
     }
 
+    /**
+     * 扫描bean
+     * @param registry
+     */
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
         DbRestScanner scanner = new DbRestScanner(registry);
         scanner.setAnnotationClass(this.annotationClass);
