@@ -9,6 +9,8 @@
 > @DbCrud：一个注解实现单表crud接口开发
 >
 > @DbQuery、@DbUpdate、@DbQueryPage等：基于注解实现动态sql接口开发
+>
+> 如果您觉的好用的话，麻烦给个star支持，万分感谢！！
 
 # 特点
 
@@ -30,7 +32,7 @@
 <dependency>
     <groupId>xyz.zeozheng</groupId>
     <artifactId>dbrest-spring-boot-starter</artifactId>
-    <version>0.97</version>
+    <version>0.98</version>
 </dependency>
 ```
 
@@ -182,6 +184,17 @@ sqlLevel = debug
       }
       ```
 
+### 使用demo
+
+​			[dbrest-demo-mysql](https://gitee.com/zzhtop/dbrest-demo-mysql/tree/master)
+
+## 推荐用法
+
+- dbrest + mybatis plus
+  - 使用dbrest生成crud，简易查询，统计等无业务逻辑的api接口
+  - mybatis plus处理service层，及复杂业务数据库逻辑处理
+- 简易项目可直接使用 dbrest + Hutool db模块
+
 ## 常见问题
 
 - @DbCrud数据库表名区分大小写
@@ -190,5 +203,10 @@ sqlLevel = debug
 
   完善中。。。
 
+# 感谢
 
+- Mybatis：思路和源码参考
 
+- Hutool：数据库查询基于Hutool Db模块
+- Ognl：Sql条件及参数使用Ognl
+- Spring boot：基于Spring 框架体系
