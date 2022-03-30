@@ -4,7 +4,7 @@
 
 > 极简的crud接口开发、sql接口开发框架，与spring boot无缝集成。
 >
-> 思路来源于mybatis，在controller基于声明式注解和sql，实现api接口开发。
+> 思路来源于mybatis，在controller基于声明式注解以及sql，实现api接口开发。
 >
 > @DbCrud：一个注解实现单表crud接口开发
 >
@@ -74,14 +74,14 @@ sqlLevel = debug
   public interface BookController {
   
       /**
-       * 生成crud接口：/test/book/save、/test/book/findList、/test/book/findPage、
-       *    /test/book/getById、/test/book/delete
+       * 生成crud接口：/book/save、/book/findList、/book/findPage、
+       *    /book/getById、/book/delete
        */
       @DbCrud(tableName = "book", keyField = "id",idtype = IdType.AUTO)
       public Object book();
   
       /**
-       * 根据name查询，请求路径 /test/findByName
+       * 根据name查询，请求路径 /book/findByName
        */
       @RequestMapping(value = "/book/findByName", method = RequestMethod.GET)
       @DbQuery(value = "select * from book where 1=1 {name? and name = [name]}")
@@ -90,8 +90,8 @@ sqlLevel = debug
   ```
 
 - 试试请求 接口：
-  - /test/book/getById?id=xx
-  - /test/book/findList、/test/book/findPage
+  - /book/getById?id=xx
+  - /book/findList、/book/findPage
   - /book/findByName?name=xxx
 
 ## 详细用法
