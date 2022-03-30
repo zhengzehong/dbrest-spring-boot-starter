@@ -41,8 +41,9 @@ public class DbRestProxyHandler<T> implements InvocationHandler {
                 StaticLog.error(e,"请求异常");
                 return invokeResultHandler(e, excuteMethodObj.getDbQueryAnnotationHolder(), excuteMethodObj.getResultHandler(),method);
             }
+        }else {
+            return method.invoke(this, args);
         }
-        return new HashMap<>();
     }
 
     private Map<String,Object> invokeRequestHandler(Map<String,Object> requestParams, RequestHandler requestHandler,DbQueryAnnotationHolder dbQueryAnnotationHolder,Method method) {
