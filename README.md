@@ -9,8 +9,6 @@
 > @DbCrud：一个注解实现单表crud接口开发
 >
 > @DbQuery、@DbUpdate、@DbQueryPage等：基于注解实现动态sql接口开发
->
-> **如果您觉的有用的话，点个star收藏支持一下，万分感谢！！**
 
 # 特点
 
@@ -19,6 +17,7 @@
 - 支持mysql、oracle
 - 安全性，防止sql注入
 - 轻量级、可与mybatisPlus、hibernate框架等共用
+**如果您觉的有用的话，点个star收藏支持一下，万分感谢！！**
 
 # 使用方法
 
