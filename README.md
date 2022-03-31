@@ -93,7 +93,7 @@ sqlLevel = debug
   - /book/getById?id=xx
   - /book/findList、/book/findPage
   - /book/findByName?name=xxx
-
+-----
 ## 详细用法
 
 ### 注解说明
@@ -187,6 +187,7 @@ sqlLevel = debug
 ### 使用demo
 
 ​			[dbrest-demo-mysql](https://gitee.com/zzhtop/dbrest-demo-mysql/tree/master)
+-----
 
 ## 推荐用法
 
