@@ -4,11 +4,11 @@
 
 > 极简的crud接口开发、sql接口开发框架，与spring boot无缝集成。
 >
-> 思路来源于mybatis，在controller基于声明式注解以及sql，实现api接口开发。
+> 思路来源于mybatis，在controller基于声明式接口和注解，动态代理生成实现类，实现api接口开发。
 >
 > @DbCrud：一个注解实现单表crud接口开发
 >
-> @DbQuery、@DbUpdate、@DbQueryPage等：基于注解实现动态sql接口开发
+> @DbQuery、@DbUpdate、@DbQueryPage等：用法类似mybatis @Select、@Update注解，在controller层实现基于注解式接口开发
 
 # 特点
 
@@ -199,10 +199,6 @@ sqlLevel = debug
 ## 常见问题
 
 - @DbCrud数据库表名区分大小写
-
-# 原理篇
-
-  完善中。。。
 
 # 感谢
 
